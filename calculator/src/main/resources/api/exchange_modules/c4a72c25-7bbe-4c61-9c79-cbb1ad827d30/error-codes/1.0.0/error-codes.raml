@@ -1,0 +1,30 @@
+#%RAML 1.0 Trait
+responses:
+  400:
+    body:
+      application/json:
+        example:
+          {
+            "message":"Bad request"
+          }
+  404:
+    body:
+      application/json:
+        example:
+          {
+            "message":"not found"
+          }
+  405:
+    body:
+      application/json:
+        example:
+          {
+            "message":"method not allowed"
+          }
+  500:
+    body:
+      application/json:
+        example:
+          {
+            "message":"inter server error"
+          }

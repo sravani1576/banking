@@ -1,0 +1,30 @@
+#%RAML 1.0
+title: Student-api
+version: v1
+protocols:
+  - HTTP
+mediaType:
+- application/json
+description: "to create student id"
+traits:
+  error-codes: !include /exchange_modules/c4a72c25-7bbe-4c61-9c79-cbb1ad827d30/error-codes/1.0.0/error-codes.raml
+/create-student:
+  post:
+    is:
+      - error-codes
+    body:
+      example:  !include /examples/requests/student-request.json
+      type:  !include /data types/dataType.raml
+        
+      
+    responses:
+      201:
+        body:
+          example: !include /examples/responses/student-response.json
+  patch:
+      body:
+          example:
+            {
+              "sid": "1235"
+            }
+                 
