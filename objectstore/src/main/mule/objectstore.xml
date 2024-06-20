@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="ac7952fc-c677-4003-a79e-2a64f0bde061" >
+		<http:listener-connection host="0.0.0.0" port="8084" />
+	</http:listener-config>
+	<os:config name="ObjectStore_Config" doc:name="ObjectStore Config" doc:id="3f6cd3bb-3b1c-4804-b059-ca50cdef50fb" />
+	<os:object-store name="Object_store" doc:name="Object store" doc:id="1a1af073-7268-4439-ba36-80c50d4adc72" config-ref="ObjectStore_Config" />
+	<os:object-store name="Object_store1" doc:name="Object store" doc:id="db9417e9-7626-4ca3-b770-006ac91b4060" persistent="false" />
+	<os:object-store name="Object_store2" doc:name="Object store" doc:id="50b46201-da0b-4e87-8897-cf6bc9c61362" />
+	<flow name="objectstoreFlow" doc:id="bf104115-a6a5-414f-bd1b-ad2b1ced3e90" >
+		<http:listener doc:name="Listener" doc:id="0f3d948d-65f7-4cc5-b571-60e832b8cae8" config-ref="HTTP_Listener_config" path="/store"/>
+		<set-variable value="#[attributes.queryParams.name]" doc:name="Set Variable" doc:id="80f0b719-6787-44b0-b59e-55b5cd0e05cc" variableName="name"/>
+		<set-variable value="#[attributes.queryParams.id]" doc:name="Set Variable" doc:id="38e5d657-7133-45e8-afa5-059e0c7f327d" variableName="id"/>
+		<os:store doc:name="Store" doc:id="65cbd943-3c28-4cc8-b69e-f6944775a8a4" key="#[vars.name]" objectStore="Object_store1">
+			<os:value ><![CDATA[#[vars.id]]]></os:value>
+		</os:store>
+		<os:retrieve-all doc:name="Retrieve all" doc:id="6d885499-a150-45c0-af1b-6e38a52767ed" objectStore="Object_store1"/>
+		<logger level="INFO" doc:name="Logger" doc:id="ea89a5b7-0cf6-49a3-becf-438426479c0a" message="#[payload]"/>
+	</flow>
+	<flow name="objectstoreFlow2" doc:id="ba4bf24e-ff7f-41bf-9595-19a80239563f" >
+		<http:listener doc:name="Listener" doc:id="7bb334f8-93e7-4094-8159-1984b5d556f9" config-ref="HTTP_Listener_config" path="/cont"/>
+		<os:contains doc:name="Contains" doc:id="58a6eff2-d2ef-44e9-9b45-412adb9154e7" key="#[attributes.queryParams.name]" objectStore="Object_store1"/>
+	</flow>
+</mule>
