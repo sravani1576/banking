@@ -15,7 +15,6 @@ http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/cu
 	<flow name="objectstoreFlow" doc:id="bf104115-a6a5-414f-bd1b-ad2b1ced3e90" >
 		<http:listener doc:name="Listener" doc:id="0f3d948d-65f7-4cc5-b571-60e832b8cae8" config-ref="HTTP_Listener_config" path="/store"/>
 		<set-variable value="#[attributes.queryParams.name]" doc:name="Set Variable" doc:id="80f0b719-6787-44b0-b59e-55b5cd0e05cc" variableName="name"/>
-		<set-variable value="#[attributes.queryParams.id]" doc:name="Set Variable" doc:id="38e5d657-7133-45e8-afa5-059e0c7f327d" variableName="id"/>
 		<os:store doc:name="Store" doc:id="65cbd943-3c28-4cc8-b69e-f6944775a8a4" key="#[vars.name]" objectStore="Object_store1">
 			<os:value ><![CDATA[#[vars.id]]]></os:value>
 		</os:store>
