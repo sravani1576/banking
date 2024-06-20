@@ -133,7 +133,7 @@ output application/json
 output application/json
 ---
 {
-  message: "student id created successfully"
+  message: "student id created successfully by sravani"
 } as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
             </ee:message>
         </ee:transform>
